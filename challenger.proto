@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package provenance;
+
+option go_package = "github.com/accretional/proto-prov/pb";
+
+import "accretional/proto-resource/resource.proto";
+import "accretional/proto-domain/domain.proto";
+
+message Demonstration {
+  Resource resource = 1;
+  string field_mask = 2;
+  bytes content = 3;
+}
+
+message Challenge {
+  string uri = 1;
+  google.protobuf.Timestamp requested_at = 3;
+  repeated Demonstration modifications = 4;
+}
+
+message Result {
+  oneof kind {
+    resource.Resource accepted = 1;
+    Challange continue = 2;
+    repeated string rejection_messages = 3;
+  }
+}
+
+service Challenger {
+  rpc Acquire(domain.Domain) returns(Challenge);
+  rpc Join(resource.Resource) returns(Challenge);
+  rpc Show(Challenge) returns(Result);
+}
