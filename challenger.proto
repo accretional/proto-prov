@@ -22,7 +22,7 @@ message Challenge {
 message Result {
   oneof kind {
     resource.Resource accepted = 1;
-    Challange continue = 2;
+    Challenge next = 2;
     repeated string rejection_messages = 3;
   }
 }
