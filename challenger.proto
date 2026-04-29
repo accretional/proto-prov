@@ -15,7 +15,7 @@ message Demonstration {
 
 message Challenge {
   string uri = 1;
-  google.protobuf.Timestamp requested_at = 3;
+  google.protobuf.Timestamp requested_at = 2;
   repeated Demonstration modifications = 4;
 }
 
