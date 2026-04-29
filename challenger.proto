@@ -7,16 +7,20 @@ option go_package = "github.com/accretional/proto-prov/pb";
 import "accretional/proto-resource/resource.proto";
 import "accretional/proto-domain/domain.proto";
 
-message Demonstration {
+message Subject {
   Resource resource = 1;
   string field_mask = 2;
-  bytes content = 3;
+}
+
+message Change {
+  Subject subject = 1;
+  bytes content = 2;
 }
 
 message Challenge {
   string uri = 1;
-  google.protobuf.Timestamp requested_at = 2;
-  repeated Demonstration modifications = 4;
+  repeated Change changes = 2;
+  google.protobuf.Timestamp requested_at = 3;
 }
 
 message Result {
@@ -28,7 +32,7 @@ message Result {
 }
 
 service Challenger {
-  rpc Acquire(domain.Domain) returns(Challenge);
-  rpc Join(resource.Resource) returns(Challenge);
+  rpc Establish(domain.Domain) returns(Challenge);
+  rpc Join(domain.Domain) returns(Challenge);
   rpc Show(Challenge) returns(Result);
 }
